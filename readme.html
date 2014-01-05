@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<title>Zen Cart: Report All PHP Errors</title>
+
+<style type="text/css">
+<!--
+a, a:active, a:visited { color: #006666; text-decoration: none }
+a:hover { color:#00CC99; text-decoration: underline; }
+BODY, P, H1, H2, H3, H4, H5, H6, LI, TD, DD, DT, hr { font-family: Verdana, AvantGarde, Tahoma, Arial, sans-serif; font-size: 10pt; color: black; padding: 0px; margin: 20px; }
+H1, H2, H3, H4 { font-weight: bold }
+h1 { font-size: 20px; }
+h2 { font-size: 16px; padding-top: 5px; border-top: 1px solid #414141; }
+ol li, ul li { margin: 5px 0; }
+.corefile, .impt { color: red; }
+img { margin-left: 20px; max-width: 95%; }
+pre { margin-left: 20px; }
+-->
+</style>
+</head>
+
+<body>
+<a name="top" id="top"></a>
+<h1>Report All Errors (Even Warnings) for Zen Cart v1.5.1/v1.5.2</h1>
+<h3>Version 1.1.1 by lat9</h3>
+<p>Current Support Thread at Zen Cart Forums: <a href="http://www.zen-cart.com/showthread.php?211217-Support-Thread-Report-All-Errors-%28Even-Warnings%29">http://www.zen-cart.com/showthread.php?211217-Support-Thread-Report-All-Errors-%28Even-Warnings%29</a></p>
+<h2>Version History:</h2>
+<ul>
+  <li>v1.0.0, 2013-12-03, Initial release.</li>
+  <li>v1.1.0, 2013-12-06<ul>
+    <li>Modified method used to enable &mdash; was via $_GET variable, now via admin-configurable switches.</li>
+  </ul></li>
+  <li>v1.1.1, 2014-xx-yy<ul>
+    <li>Added notes to this readme file, indicating that some of the PHP notifications/warnings are to be expected (based on the Zen Cart architecture)!</li>
+  </ul></li>
+</ul>
+
+<h2>What it does</h2>
+<p>This plugin provides an easy way for developers to control the logging of <b>all</b> PHP-related errors to a myDebug*.log file. After you've run the installation SQL file, there are two new values in your admin's <em>Configuration-&gt;Logging</em>:</p>
+<ol>
+  <li><em>Report All Errors (Admin)?</em>.  Set this value to <em>Yes</em> to enable all PHP errors to be reported for admin-related pages.</li>
+  <li><em>Report All Errors (Store)?</em>.  Set this value to <em>Yes</em> to enable all PHP errors to be reported for store-related pages.</li>
+</ol>
+<p><strong>Notes:</strong></p>
+<ol>
+  <li>Use caution when enabling this plugin on a <em>live</em> store as your store's performance will most likely be significantly reduced!</li>
+  <li>The store-side debug-log files can be <em>very</em> large, so make sure that you clean them out periodically.</li>
+</ol>
+<h3>What Errors are Really Errors?</h3>
+<p>The first time you enable the reporting of all errors on your store, you might see a number of items similar to</p>
+<pre>PHP Notice:  Constant SOME_LANGUAGE_CONSTANT_NAME already defined in {DIR_FS_CATALOG}\includes\languages\english.php on line xxx</pre>
+<p>These &quot;notice&quot; messages are issued if your store has made a template-override change to the default language file (for this example, english.php).  That's because Zen Cart first loads your template-override language file and then &mdash; because sometimes new messages are introduced with a new Zen Cart version &mdash; loads the default language file.  These notices can be safely ignored.</p>
+
+<h2>Installation</h2>
+<p>There are <span class="corefile">core-file overwrites</span> in this plugin; you should <strong>always</strong> backup your cart's database and files prior to making any changes.</p>
+<ol>
+  <li>Unzip the plugin's package file and rename the YOUR_ADMIN folder to match your custom admin folder's name.</li>
+  <li>Log into your Zen Cart admin, open the plugin's file <code>/report_all_errors_install.sql</code>, copy and paste the contents of that file into your admin's <em>Tools-&gt;Install SQL Patches</em> and press the Send button.</li>
+  <li>Copy the files provided by the plugin to your Zen Cart:<ol>
+    <li>/includes/auto_loaders/config.report_all_errors.php</li>
+    <li>/includes/auto_loaders/paypal_ipn.report_all_errors.php</li>
+    <li><span class="corefile">/includes/extra_configures/enable_error_logging.php</span><sup>1</sup></li>
+    <li>/includes/init_includes/init_report_all_errors.php</li>
+    <li>/YOUR_ADMIN/includes/auto_loaders/config.report_all_errors_admin.php</li>
+    <li><span class="corefile">/YOUR_ADMIN/includes/extra_configures/enable_error_logging.php</span><sup>1</sup></li>
+    <li>/YOUR_ADMIN/includes/init_includes/init_report_all_errors_admin.php</li>
+  </ol></li>
+</ol>
+<hr />
+<p><sup>1</sup>These files were core-file overwrites in v1.0.0 of this plugin and are now replaced by the similarly-named files from the Zen Cart v1.5.2-RC1 distribution to ensure that any previous version of this plugin is removed.</p>
+<h2>Uninstall</h2>
+<p>Replace the backup copies of the files you copied during the installation, delete the new files and run the plugin's file <code>/report_all_errors_uninstall.sql</code>.</p>
+
+</body>
+</html>
