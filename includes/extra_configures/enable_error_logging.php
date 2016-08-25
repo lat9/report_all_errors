@@ -15,7 +15,7 @@
 function zen_debug_error_handler ($errno, $errstr, $errfile, $errline) 
 {
     $log_this = true;
-    if (defined ('REPORT_ALL_ERRORS_STORE') && REPORT_ALL_ERRORS_STORE == 'NonLang') {
+    if (defined ('REPORT_ALL_ERRORS_STORE') && REPORT_ALL_ERRORS_STORE == 'IgnoreDups') {
         $log_this = !preg_match ('#Constant .* already defined#', $errstr);
     }
     if (!($log_this && error_reporting() && $errno)) {
