@@ -12,9 +12,12 @@
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
  * @version GIT: $Id: Author: DrByte  Modified in v1.5.5 $
  */
-
 function zen_debug_error_handler ($errno, $errstr, $errfile, $errline) {
-  if (!(error_reporting() && $errno)) {
+  $log_this = true;
+  if (defined ('REPORT_ALL_ERRORS_STORE') && REPORT_ALL_ERRORS_STORE == 'NonLang') {
+      $log_this = !preg_match ('#Constant .* already defined#', $errstr);
+  }
+  if (!($log_this && error_reporting() && $errno)) {
     return;
   }
   ob_start();
