@@ -4,9 +4,18 @@
 //
 // @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
 //
-/*-----
-** If the configuration value is set to report all errors during the admin's operation, enable it!
-*/
-if (defined('REPORT_ALL_ERRORS_ADMIN') && REPORT_ALL_ERRORS_ADMIN == 'Yes') {
-  @ini_set('error_reporting', -1 );
+
+// -----
+// If the plugin's not yet installed, add its configuration settings; otherwise, if the admin-level
+// setting is enabled, enable it!
+//
+if (!defined ('REPORT_ALL_ERRORS_ADMIN')) {
+    $db->Execute ("INSERT INTO " . TABLE_CONFIGURATION . " ( configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added, use_function, set_function)
+VALUES ( 'Report All Errors (Admin)?', 'REPORT_ALL_ERRORS_ADMIN', 'No', 'Do you want create debug-log files for <b>all</b> PHP errors, even warnings, that occur during your Zen Cart admin's processing?  If you want to log all PHP errors <b>except</b> duplicate-language definitions, choose <em>NonLang</em>.', 10, 40, now(), NULL, 'zen_cfg_select_option(array('Yes', 'No', 'NonLang'),')");
+    
+    $db->Execute ("INSERT INTO " . TABLE_CONFIGURATION . " ( configuration_title, configuration_key, configuration_value, configuration_description, configuration_group_id, sort_order, date_added, use_function, set_function)
+VALUES ( 'Report All Errors (Store)?', 'REPORT_ALL_ERRORS_STORE', 'No', 'Do you want create debug-log files for <b>all</b> PHP errors, even warnings, that occur during your Zen Cart store's processing?  If you want to log all PHP errors <b>except</b> duplicate-language definitions, choose <em>NonLang</em>.<br /><br /><strong>Note:</strong> Choosing \'Yes\' is not suggested for a <em>live</em> store, since it will reduce performance significantly!', 10, 41, now(), NULL, 'zen_cfg_select_option(array('Yes', 'No', 'NonLang'),')");
+
+} elseif (REPORT_ALL_ERRORS_ADMIN != 'No') {
+    @ini_set('error_reporting', -1 );
 }
