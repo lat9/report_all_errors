@@ -9,4 +9,5 @@
 */
 if (defined('REPORT_ALL_ERRORS_STORE') && REPORT_ALL_ERRORS_STORE != 'No') {
     @ini_set('error_reporting', -1 );
+    set_error_handler('zen_debug_error_handler', -1);
 }
