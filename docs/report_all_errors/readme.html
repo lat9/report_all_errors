@@ -73,7 +73,7 @@ th { background-color: #eee; }
 
 <body>
   <h1>Report All Errors (Even Warnings) for Zen Cart v1.5.1 through v1.5.5</h1>
-  <h3>Version 2.0.1 by lat9</h3>
+  <h3>Version 2.0.2 by lat9</h3>
   <h3>Copyright &copy; 2013-2016 <a href="http://vinosdefrutastropicales.com" target="_blank">Vinos de Frutas Tropicales</a>. All rights reserved.</h3>
   <hr />
   <p>Current Support Thread at Zen Cart Forums: <a href="http://www.zen-cart.com/showthread.php?211217-Support-Thread-Report-All-Errors-%28Even-Warnings%29" target="_blank">http://www.zen-cart.com/showthread.php?211217-Support-Thread-Report-All-Errors-%28Even-Warnings%29</a></p>
@@ -88,10 +88,11 @@ th { background-color: #eee; }
     <div class="panel-container">
     
       <div id="overview">
-        <p>This plugin provides an easy way for developers to control the logging of <b>all</b> PHP-related errors to a myDEBUG*.log file. After you've installed the plugin, there are two new values in your admin's <em>Configuration-&gt;Logging</em>:</p>
+        <p>This plugin provides an easy way for developers to control the logging of <b>all</b> PHP-related errors to a myDEBUG*.log file. After you've installed the plugin, there are three new values in your admin's <em>Configuration-&gt;Logging</em>:</p>
         <ol>
           <li><em>Report All Errors (Admin)?</em>.  Set this value to <em>Yes</em> to enable <b>all</b> PHP errors to be reported for admin-related pages.  Use the <em>IgnoreDups</em> setting to cause the processing to not log the duplicate-constant messages described below.</li>
           <li><em>Report All Errors (Store)?</em>.  Set this value to <em>Yes</em> to enable <b>all</b> PHP errors to be reported for store-related pages.  Use the <em>IgnoreDups</em> setting to cause the processing to not log the duplicate-constant messages described below.</li>
+          <li><em>Report All Errors: Backtrace on Notice Errors?</em>. Set this value to <em>Yes</em> to include the &quot;backtrace&quot; information with each <code class="no-pad">PHP Notice</code> report, increasing the size of the generated .log file.  The default value of <em>No</em> should be used in most circumstances, since those &quot;Notice&quot; errors are normally due to a coding construct present in the file named in the report. <span class="smaller">(Added in v2.0.2)</span></li>
         </ol>
         <p><strong>Notes:</strong></p>
         <ol>
@@ -144,6 +145,12 @@ th { background-color: #eee; }
       
       <div id="history">
         <ul>
+          <li>v2.0.2, 2016-09-15<ul>
+            <li>BUGFIX: <em>IgnoreDups</em> handling was incorrect, so the setting was never applied.</li>
+            <li>CHANGE: Add configuration setting to conditionally remove the <em>backtrace</em> information from &quot;PHP Notice&quot; issues.  Those tend to be specific to the reported filename and having the backtrace information simply serves to increase the size of the generated .log file.</li>
+            <li>CHANGE: Remove extra whitespace (and CRLF characters) from the end of the generated backtrace; an additional new-line was being added, also increasing the size/viewability of the generated log file.</li>
+            <li>CHANGE: Properly comment the changes to the Zen Cart core-files, using Zen Cart 1.5.5a as the basis.</li>
+          </ul></li>
           <li>v2.0.1, 2016-08-29<ul>
             <li>BUGFIX: Correct auto-installer SQL error.</li>
           </ul></li>

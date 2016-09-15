@@ -8,18 +8,26 @@
  * Credits to @lat9 for adding backtrace functionality
  *
  * @package debug
- * @copyright Copyright 2003-2015 Zen Cart Development Team
+ * @copyright Copyright 2003-2016 Zen Cart Development Team
  * @license http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
- * @version GIT: $Id: Author: DrByte  Modified in v1.5.5 $
+ * @version $Id: Author: DrByte  Sat Oct 17 20:09:58 2015 -0400 Modified in v1.5.5 $
  */
-
-function zen_debug_error_handler ($errno, $errstr, $errfile, $errline) 
-{
+function zen_debug_error_handler ($errno, $errstr, $errfile, $errline) {
+    
+//-bof-report_all_errors-lat9  *** 1 of 2 ***
     $log_this = true;
     if (defined ('REPORT_ALL_ERRORS_ADMIN') && REPORT_ALL_ERRORS_ADMIN == 'IgnoreDups') {
         $log_this = !preg_match ('#Constant .* already defined#', $errstr);
     }
-    if (!($log_this && error_reporting() && $errno)) {
+    if (!$log_this) {
+        return true;
+    }
+    if ($errno == E_NOTICE && defined ('REPORT_ALL_ERRORS_NOTICE_BACKTRACE') && REPORT_ALL_ERRORS_NOTICE_BACKTRACE == 'No') {
+        return false;
+    }
+//-eof-report_all_errors-lat9  *** 1 of 2 ***    
+    
+    if (!(error_reporting() && $errno)) {
         return;
     }
     ob_start();
@@ -31,9 +39,14 @@ function zen_debug_error_handler ($errno, $errstr, $errfile, $errline)
     $backtrace = ob_get_contents();
     ob_end_clean();
     // The following line removes the call to this zen_debug_error_handler function (as it's not relevant)
-    $backtrace = preg_replace ('/^#0\s+' . __FUNCTION__ . "[^\n]*\n/", '', $backtrace, 1);  
-    error_log('Request URI: ' . $_SERVER['REQUEST_URI'] . ', IP address: ' . (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'not set') . "\n" . $backtrace);
+    
+//-bof-report_all_errors-lat9  *** 2 of 2 ***  
+//    $backtrace = preg_replace ('/^#0\s+' . __FUNCTION__ . "[^\n]*\n/", '', $backtrace, 1);
+    $backtrace = trim (preg_replace ('/^#0\s+' . __FUNCTION__ . "[^\n]*\n/", '', $backtrace, 1));
+//-eof-report_all_errors-lat9  *** 2 of 2 ***
 
+    error_log('Request URI: ' . $_SERVER['REQUEST_URI'] . ', IP address: ' . (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : 'not set') . "\n" . $backtrace);
+  
     return false;  // Let PHP's built-in error handler do its thing.
 }
 
@@ -60,7 +73,7 @@ $pages_to_debug[] = '*';
  * ... which puts it in the /logs/ folder:   /logs/myDEBUG-999999-00000000.log  (where 999999 is a random number, and 00000000 is the server's timestamp)
  *    (or if you don't have a /logs/ folder, it will use the /cache/ folder instead)
  */
-$debug_logfile_path = DIR_FS_LOGS . '/myDEBUG-adm-' . time() . '-' . mt_rand(1000,999999) . '.log';
+  $debug_logfile_path = DIR_FS_LOGS . '/myDEBUG-adm-' . time() . '-' . mt_rand(1000,999999) . '.log';
 
 /**
  * Error reporting level to log
