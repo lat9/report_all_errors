@@ -27,7 +27,7 @@ function zen_debug_error_handler ($errno, $errstr, $errfile, $errline) {
     }
 //-eof-report_all_errors-lat9  *** 1 of 2 ***
 
-    if (!(error_reporting() && $errno)) {
+    if (!(error_reporting() & $errno)) {
         return;
     }
     
