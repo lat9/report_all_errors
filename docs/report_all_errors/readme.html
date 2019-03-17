@@ -72,11 +72,11 @@ th { background-color: #eee; }
 </head>
 
 <body>
-  <h1>Report All Errors (Even Warnings) for Zen Cart v1.5.1 through v1.5.5</h1>
-  <h3>Version 2.0.3 by lat9</h3>
-  <h3>Copyright &copy; 2013-2016 <a href="http://vinosdefrutastropicales.com" target="_blank">Vinos de Frutas Tropicales</a>. All rights reserved.</h3>
+  <h1>Report All Errors for Zen Cart v1.5.1 through v1.5.6</h1>
+  <h3>Version 3.0.0 by lat9</h3>
+  <h3>Copyright &copy; 2013-2019 <a href="https://vinosdefrutastropicales.com" target="_blank">Vinos de Frutas Tropicales</a>. All rights reserved.</h3>
   <hr />
-  <p>Current Support Thread at Zen Cart Forums: <a href="http://www.zen-cart.com/showthread.php?211217-Support-Thread-Report-All-Errors-%28Even-Warnings%29" target="_blank">http://www.zen-cart.com/showthread.php?211217-Support-Thread-Report-All-Errors-%28Even-Warnings%29</a></p>
+  <p>Current Support Thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?211217-Support-Thread-Report-All-Errors-%28Even-Warnings%29" target="_blank">https://www.zen-cart.com/showthread.php?211217-Support-Thread-Report-All-Errors-%28Even-Warnings%29</a></p>
   
   <div class="tab-container" id="outer-container">
     <ul class="etabs">
@@ -115,7 +115,7 @@ th { background-color: #eee; }
           </ul>
           <div class="panel-container">
             <div id="install">
-              <p>There are two <span class="corefile">core-file overwrite</span> in this plugin; you should <strong>always</strong> backup your cart's database and files prior to making any changes.</p>
+              <p>There are two <span class="corefile">core-file overwrites</span> in this plugin; you should <strong>always</strong> backup your cart's database and files prior to making any changes.</p>
               <ol type="A">
                 <li>Rename the <code class="no-pad">YOUR_ADMIN</code> folder to match your store's &quot;secret&quot; admin-folder name.</li>
                 <li>Copy the plugin's files to your store's file-system:<ol>
@@ -145,6 +145,15 @@ th { background-color: #eee; }
       
       <div id="history">
         <ul>
+          <li>v3.0.0, 2019-03-17<ul>
+            <li>CHANGE: Use the zc156 version of the &quot;enable_error_logging.php&quot; processing as the change-basis.<li>
+            <li>The following files were changed:<ol>
+                <li><span class="corefile">/includes/extra_configures/enable_error_logging.php</span></li>
+                <li>/includes/init_includes/init_report_all_errors.php</li>
+                <li><span class="corefile">/YOUR_ADMIN/includes/extra_configures/enable_error_logging.php</span> <span class="smaller">(This is the zc156 version of the file)</span></li>
+                <li>/YOUR_ADMIN/includes/init_includes/init_report_all_errors_admin.php</li>
+            </ol></li>
+          </ul></li>
           <li>v2.0.3, 2016-11-15<ul>
             <li>BUGFIX: PHP &quot;Notice&quot; issues are getting logged, even when the plugin is disabled and the PHP version is &gt;= 5.4.</li>
           </ul></li>
