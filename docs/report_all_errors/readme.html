@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <link rel="icon" href="../vinos_favicon.ico" type="image/x-icon" />
 <link href="http://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" type="text/css">
@@ -73,8 +73,8 @@ th { background-color: #eee; }
 
 <body>
   <h1>Report All Errors for Zen Cart v1.5.1 through v1.5.6</h1>
-  <h3>Version 3.0.0 by lat9</h3>
-  <h3>Copyright &copy; 2013-2019 <a href="https://vinosdefrutastropicales.com" target="_blank">Vinos de Frutas Tropicales</a>. All rights reserved.</h3>
+  <h3>Version 3.1.0 by lat9</h3>
+  <h3>Copyright &copy; 2013-2020 <a href="https://vinosdefrutastropicales.com" target="_blank">Vinos de Frutas Tropicales</a>. All rights reserved.</h3>
   <hr />
   <p>Current Support Thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?211217-Support-Thread-Report-All-Errors-%28Even-Warnings%29" target="_blank">https://www.zen-cart.com/showthread.php?211217-Support-Thread-Report-All-Errors-%28Even-Warnings%29</a></p>
   
@@ -102,6 +102,14 @@ th { background-color: #eee; }
         <p>The first time you enable the reporting of <b>all</b> errors on your store you might see a number of items similar to</p>
         <pre>PHP Notice:  Constant SOME_LANGUAGE_CONSTANT_NAME already defined in {DIR_FS_CATALOG}\includes\languages\english.php on line xxx</pre>
         <p>These &quot;notice&quot; messages are issued if your store has made a template-override change to the default language file (for this example, english.php).  That's because Zen Cart first loads your template-override language file and then &mdash; because sometimes new messages are introduced with a new Zen Cart version &mdash; loads the default language file.  These notices can be safely ignored; you can use the plugin's <em>IgnoreDups</em> setting to cause these notifications to not be logged.</p>
+        <p>Starting with v3.1.0, the plugin now collects the reported errors into log files based on the error's severity:</p>
+        <ol>
+            <li>If the logfile ends in <em>-deprecated.log</em>, that file contains <em>PHP Deprecation</em> messages.</li>
+            <li>If the logfile ends in <em>-warning.log</em>, that file contains <em>PHP Warning</em> messages.</li>
+            <li>If the logfile ends in <em>-error.log</em>, that file contains <em>PHP Error</em> messages.</li>
+            <li>Otherwise, the file contains <em>PHP Notice</em> messages</li>
+        </ol>
+        <p>Refer to the comments present in <code class="no-pad">/includes/extra_configures/enable_error_logging.php</code> for additional information.</p>
       </div>
       
       <div id="installation">
@@ -145,8 +153,13 @@ th { background-color: #eee; }
       
       <div id="history">
         <ul>
+          <li>v3.1.0, 2020-01-22<ul>
+            <li>CHANGE: Updated to 'group' logs of the same severity (notice, deprecated, warning, error) into separate per-page-load files.<ol>
+                <li><span class="corefile">/includes/extra_configures/enable_error_logging.php</span></li>
+            </ol></li>
+          </ul></li>
           <li>v3.0.0, 2019-03-17<ul>
-            <li>CHANGE: Use the zc156 version of the &quot;enable_error_logging.php&quot; processing as the change-basis.<li>
+            <li>CHANGE: Use the zc156 version of the &quot;enable_error_logging.php&quot; processing as the change-basis.</li>
             <li>The following files were changed:<ol>
                 <li><span class="corefile">/includes/extra_configures/enable_error_logging.php</span></li>
                 <li>/includes/init_includes/init_report_all_errors.php</li>
